@@ -35,7 +35,7 @@ def make_grid (polygon, cell_size):
 
     grid = gpd.GeoDataFrame(geometry=polygons, crs='epsg:3035')
     grid_cut = gpd.sjoin(grid, polygon_meter)
-    return grid_cut
+    return grid_cut[['geometry']].reset_index(drop=True)
 
 if __name__ == '__main__':
     df = gpd.read_file('../raw_data/gadm41_DEU_3.json')
