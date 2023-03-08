@@ -30,6 +30,7 @@ db-dtypes==1.0.5
 debugpy==1.6.6
 decorator==5.1.1
 defusedxml==0.7.1
+-e git+ssh://git@github.com/zilikons/demeter.git@4eaa0e9c2b1bf5109ddcf3f58608856eab31df1c#egg=demeter
 dill==0.3.6
 entrypoints==0.4
 exceptiongroup==1.1.0

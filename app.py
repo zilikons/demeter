@@ -9,6 +9,7 @@ import contextily as cx
 from shapely.geometry import Point
 import matplotlib.colors as colors
 #from construct_grid import make_grid
+from demeter.main_interface.y_plot import make_plotly_plot
 
 st.set_page_config(
     page_title="Urban Assessment Dashboard",
@@ -25,10 +26,10 @@ def get_data():
     cities = gpd.read_file('raw_data/eu_cities.json')
     url = "https://github.com/eurostat/Nuts2json/raw/master/2021/4326/20M/nutsrg_3.json"
     european_countries = gpd.read_file(url)
-    berlin_gridded_y = gpd.read_file('raw_data/berlin_grid_y.json')
+    berlin_gridded_y_fig = make_plotly_plot('raw_data/berlin_grid_y.json',cities,'Berlin','ylgnbu')
     #gridded_city = make_grid(cities[cities['city_name']=='Berlin'],250)
     #berlin = gpd.sjoin(gridded_city,land_use)
-    return land_use, cities, european_countries, berlin_gridded_y
+    return land_use, cities, european_countries, berlin_gridded_y_fig
 
 berlin, cities, european_countries, city_grid_y = get_data()
 
@@ -37,8 +38,8 @@ with st.sidebar:
 selected_city_info = cities[cities['city_name']==selection].reset_index(drop=True)
 selected_city_geojson = selected_city_info.geometry.__geo_interface__
 location_name = selected_city_info['city_name']
-location_lat = selected_city_info['geometry'].centroid[0].y
-location_lon = selected_city_info['geometry'].centroid[0].x
+location_lat = selected_city_info['geometry'].centroid.y[0]
+location_lon = selected_city_info['geometry'].centroid.x[0]
 location_point = Point(location_lon, location_lat)
 location_country = european_countries[european_countries.contains(location_point)].iloc[0]
 location_data = pd.DataFrame({"Name": [location_name], "Latitude": [location_lat], "Longitude": [location_lon]})
@@ -68,44 +69,25 @@ location_data['Name'] = location_data['Name'].astype(str)
 fig = px.choropleth_mapbox(location_data, geojson=location_country.geometry.__geo_interface__, color="Name",
 locations='Name', featureidkey="properties.NUTS_ID",
 mapbox_style="carto-positron", zoom=10, center={"lat": location_lat, "lon": location_lon},
-opacity=0.8, labels={'Name': 'Location'})
+opacity=0.8, labels={'Name': 'Location'}, hover_name='Name', hover_data=['Name','Latitude','Longitude'])
 trace = go.Choroplethmapbox(
     geojson=selected_city_geojson,
     locations=selected_city_info.index,
-    z=selected_city_info.index, ##TODO: CHANGE ME
+    z=[4],##TODO: CHANGE ME
     colorscale='Reds',
     marker_opacity=0.5,
     marker_line_width=0,
-    name='Multipolygon Overlay'
+    name='Hover Title',
+    showlegend=False,
 )
 fig.add_trace(trace)
+fig.update_traces(hovertemplate=None)
+fig.update_layout(showlegend=False)
 
 with col2:
     st.header('Interactive plot')
     st.plotly_chart(fig)
 
-# Set the minimum and maximum values for the color map
-vmin = city_grid_y['num_points_inside'].min()
-vmax = city_grid_y['num_points_inside'].max()
 
-#Create a log scale color map
-cmap = 'YlOrRd'
-norm = colors.LogNorm(vmin=vmin+1, vmax=vmax-1) #+/-1 required
-
-# Plot the data with the log scale color map
-fig, ax = plt.subplots()
-city_grid_y.plot(column='num_points_inside', cmap=cmap, norm=norm, ax=ax, legend=False, alpha = 0.5)
-cx.add_basemap(ax, crs = city_grid_y.crs)
-ax.set_title('Berlin Biodiversity Plot')
-ax.tick_params(
-    axis='both',
-    which='both',
-    left = False,
-    right=False,
-    bottom=False,
-    top=False,
-    labelleft=False,
-    labelbottom=False
-)
 with st.expander('Bonus Berlin Plot!'):
-    st.pyplot(fig)
+    st.plotly_chart(city_grid_y)
