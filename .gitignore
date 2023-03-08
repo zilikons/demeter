@@ -3,3 +3,4 @@ Makefile
 .python-version/
 .env
 .envrc
+testing_stuff/
