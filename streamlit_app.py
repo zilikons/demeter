@@ -9,31 +9,17 @@ import geopandas as gpd
 st.set_page_config(layout="wide")
 
 @st.cache_data
-def get_half_city(city_choice):
-    url = DOCKER_URL+f'{city_choice.lower()}_data_1'
-    response = requests.get(url).json()
-    half_city = gpd.read_file(response)
-    return half_city
-
-@st.cache_data
-def get_other_half(city_choice):
-    url = DOCKER_URL+f'{city_choice.lower()}_data_2'
-    response = requests.get(url).json()
-    half_city = gpd.read_file(response)
-    return half_city
+def get_city(city_choice):
+    url = 'https://raw.githubusercontent.com/zilikons/demeter/master/data/berlin_with_features.json'
+    city = gpd.read_file(url)
+    return city
 
 city_selection = st.selectbox('Choose your city!',['Berlin'])
-first_half = get_half_city(city_selection)
-second_half = get_other_half(city_selection)
-dataframe_list = [first_half,second_half]
 
-
-
-berlin_data = gpd.GeoDataFrame(pd.concat(dataframe_list, ignore_index=True), crs=dataframe_list[0].crs)
-berlin_data = berlin_data.to_crs(epsg=4326)
+berlin_data = get_city(city_selection)
 features = list(berlin_data.columns)
 features.remove('geometry')
-features.remove('id')
+#features.remove('id')
 features.remove('y')
 berlin_data['land_use_code'] = berlin_data['land_use_code'].astype(int)
 berlin_data = berlin_data.replace({'land_use_code':URBAN_ATLAS_LAND_USE})
