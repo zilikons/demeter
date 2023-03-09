@@ -1,16 +1,10 @@
 import streamlit as st
 from params import *
-import streamlit_folium
-import folium
-import leafmap.foliumap as leaf
 import geopandas as gpd
-from streamlit_folium import folium_static
 import requests
 import matplotlib.pyplot as plt
 import pandas as pd
 import geopandas as gpd
-import ee
-import geemap.foliumap as geemap
 
 st.set_page_config(layout="wide")
 
