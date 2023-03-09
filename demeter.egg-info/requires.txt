@@ -1,0 +1,10 @@
+geopandas
+pandas
+numpy
+rasterio
+streamlit
+google
+matplotlib
+plotly
+contextily
+shapely

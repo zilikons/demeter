@@ -11,18 +11,19 @@ import matplotlib.colors as colors
 #from construct_grid import make_grid
 from demeter.main_interface.y_plot import make_plotly_plot
 
+# page configuration
 st.set_page_config(
     page_title="Urban Assessment Dashboard",
     page_icon="✅",
     layout="wide",
 )
 
-st.markdown('''# European City Maps!!
-            ''')
+st.header('Berlin biodiversity')
+st.write("Interactive biodervisty dashboard")
 
 @st.cache_data
 def get_data():
-    land_use = gpd.read_file('raw_data/berlin_landuse.gpkg')
+    land_use = gpd.read_file('raw_data/land_use.gpkg')
     cities = gpd.read_file('raw_data/eu_cities.json')
     url = "https://github.com/eurostat/Nuts2json/raw/master/2021/4326/20M/nutsrg_3.json"
     european_countries = gpd.read_file(url)
@@ -44,7 +45,6 @@ location_point = Point(location_lon, location_lat)
 location_country = european_countries[european_countries.contains(location_point)].iloc[0]
 location_data = pd.DataFrame({"Name": [location_name], "Latitude": [location_lat], "Longitude": [location_lon]})
 
-col1, col2 = st.columns((1,1), gap = 'medium')
 
 fig, axs = plt.subplots()
 city_choice = selected_city_info
@@ -60,6 +60,8 @@ axs.tick_params(
     labelleft=False,
     labelbottom=False
 )
+
+col1, col2 = st.columns((2,2))
 
 with col1:
     st.header('Basic plot')
