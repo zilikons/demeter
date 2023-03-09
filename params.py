@@ -3,6 +3,7 @@ import os
 PROJECT_ID=os.getenv('PROJECT_ID')
 BASIC_TABLE=os.getenv('BASIC_TABLE')
 DATASET_ID=os.getenv('DATASET_ID')
+DOCKER_URL=os.getenv('DOCKER_URL')
 URBAN_ATLAS_LAND_USE={
     11100: 'Continuous Urban Fabric (S.L. > 80%)',
     11210: 'Discontinuous Dense Urban Fabric (S.L. : 50% - 80%)',
@@ -31,4 +32,14 @@ URBAN_ATLAS_LAND_USE={
     33000: 'Open spaces with little or no vegetations (beaches, dunes, bare rocks, glaciers)',
     40000: 'Wetland',
     50000: 'Water bodies'
+}
+FEATURE_COLUMN_NAMES={
+    'Vegetation Intensity':'veg',
+    'Road density':'roads',
+    'Water':'water',
+    'Residential Density':'height_resid',
+    'Non-Residential Density':'height_nonresid',
+    'Land Use':'land_use_code',
+    'Population':'population',
+    'Biodiversity':'log_y'
 }
