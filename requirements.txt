@@ -8,3 +8,5 @@ matplotlib
 plotly
 contextily
 shapely
+fastapi
+uvicorn
