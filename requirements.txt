@@ -12,4 +12,4 @@ fastapi
 uvicorn
 scikit-learn
 xgboost
-pickle
+pickle-mixin
