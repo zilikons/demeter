@@ -6,3 +6,4 @@ Makefile
 testing_stuff/
 Dockerfile
 docker_requirements.txt
+**pycache
