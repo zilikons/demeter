@@ -13,3 +13,4 @@ uvicorn
 scikit-learn
 xgboost
 pickle-mixin
+seaborn
