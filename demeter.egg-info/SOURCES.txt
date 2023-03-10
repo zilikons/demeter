@@ -1,0 +1,9 @@
+README.md
+setup.py
+demeter/__init__.py
+demeter.egg-info/PKG-INFO
+demeter.egg-info/SOURCES.txt
+demeter.egg-info/dependency_links.txt
+demeter.egg-info/not-zip-safe
+demeter.egg-info/requires.txt
+demeter.egg-info/top_level.txt
