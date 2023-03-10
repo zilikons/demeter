@@ -1,6 +1,5 @@
 import streamlit as st
 from pages import map_display
-from PIL import Image
 
 PAGES = {
     "Map Display Page": map_display,

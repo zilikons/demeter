@@ -10,3 +10,6 @@ contextily
 shapely
 fastapi
 uvicorn
+scikit-learn
+xgboost
+pickle
