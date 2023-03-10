@@ -4,6 +4,7 @@ PROJECT_ID=os.getenv('PROJECT_ID')
 BASIC_TABLE=os.getenv('BASIC_TABLE')
 DATASET_ID=os.getenv('DATASET_ID')
 DOCKER_URL=os.getenv('DOCKER_URL')
+BERLIN_DATA=os.getenv('BERLIN_DATA')
 URBAN_ATLAS_LAND_USE={
     11100: 'Continuous Urban Fabric (S.L. > 80%)',
     11210: 'Discontinuous Dense Urban Fabric (S.L. : 50% - 80%)',
