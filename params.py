@@ -36,11 +36,11 @@ URBAN_ATLAS_LAND_USE={
 }
 FEATURE_COLUMN_NAMES={
     'Vegetation Intensity':'veg',
-    'Road density':'roads',
+    'Road Density':'road',
     'Water':'water',
-    'Residential Density':'height_resid',
-    'Non-Residential Density':'height_nonresid',
+    'Residential Density':'resi',
+    'Non-Residential Density':'non_resi',
     'Land Use':'land_use_code',
-    'Population':'population',
-    'Biodiversity':'log_y'
+    'Population':'pop',
+    'Biodiversity':'y'
 }
