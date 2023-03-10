@@ -36,7 +36,8 @@ def feature_histogram_side_by_side(data, feature_column_name1,feature_column_nam
     plt.subplot(1, 2, 2)
     plt.title(feature_column_name2)
     sns.histplot(np.log1p(data[FEATURE_COLUMN_NAMES[feature_column_name2]]), kde=True);
-
+    fig = plt.gcf()
+    return fig
 #plotting feature map
 def plot_feature(data, feature):
     fig, ax = plt.subplots(1, 1)
@@ -80,4 +81,4 @@ def plot_correlation(data, feature_column_name, cmap='coolwarm'):
     fig, ax = plt.subplots(figsize=(10,10))
     sns.heatmap(corr_group, cmap=cmap, annot=True, fmt='.2f', linewidths=.5, ax=ax)
     ax.set_title(f'Correlation of {feature_column_name}')
-    plt.show()
+    return fig

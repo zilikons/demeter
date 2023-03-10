@@ -62,7 +62,7 @@ def make_grid_centroid(polygon, cell_size):
     grid_cut = gpd.sjoin(grid, polygon_meter)
     return grid_cut[['geometry']].reset_index(drop=True), centroids
 
-
+#First step in the Workflow: Create a centroid from the polygons in the given dataframe
 def create_centroids_gdf(polygon, cell_size):
     # Create a grid of square polygons within the input polygon
     grid_cut_centroids = make_grid_centroid(polygon, cell_size)
@@ -81,32 +81,29 @@ def create_centroids_gdf(polygon, cell_size):
 
     return centroids_gdf
 
+#Second step, join the city GDF and landuse GDF to yield the city area
 def join_landuse_city(city_gdf, landuse_gdf):
     # Join the landuse feature with the city polygon
     landuse_joined = gpd.sjoin(landuse_gdf, city_gdf.to_crs(epsg=3035), predicate='within')
 
     # Drop unnecessary columns
-    landuse_joined.drop(columns=['country', 'fua_name','prod_date','identifier','perimeter','comment', 'Pop2018', 'index_right', 'GID_3', 'GID_0',
-                                 'COUNTRY', 'GID_1', 'NAME_1', 'NL_NAME_1', 'GID_2', 'NAME_2', 'NL_NAME_2', 'NAME_3', 'VARNAME_3',
-                                 'NL_NAME_3', 'TYPE_3', 'ENGTYPE_3', 'CC_3', 'HASC_3', 'index__right','fua_code'], inplace=True)
+    landuse_joined.drop(columns=['fua_name','country','fua_code','prod_date','perimeter','comment','index_right','Pop2018','NAME_3'], inplace=True)
 
     return landuse_joined
 
-def join_landuse_centroid(city_gdf, landuse_gdf, cell_size):
-    # Create a GeoDataFrame of centroids for the input city polygon
-    centroids_gdf = create_centroids_gdf(city_gdf, cell_size)
-
-    # Match the centroid points with the land use data
-    landuse_centroid = gpd.sjoin(centroids_gdf, landuse_gdf, lsuffix='_left', rsuffix='_right')
+#Third step, join the centroids_gdf and the landuse_joined gdf from step 1 and 2
+def join_landuse_centroid(centroid_gdf, landuse_gdf):
+    # Match the input centroid point with the land use data
+    landuse_centroid = gpd.sjoin(centroid_gdf, landuse_gdf, lsuffix='_left', rsuffix='_right')
 
     return landuse_centroid
 
-from shapely.geometry import Polygon
 
+#Fourth step, convert those centroids back into polygons
 def points_to_squares(gdf, cell_size):
     polygons = []
     for point in gdf.geometry:
-        x, y = point.x, point.y
+        x, y = point.x, point.ys
         half_side = cell_size / 2
         square = Polygon([(x - half_side, y - half_side),
                           (x - half_side, y + half_side),
