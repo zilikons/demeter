@@ -9,6 +9,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 import pickle
 import matplotlib.pyplot as plt
+import plotly.express as px
 
 #In: df including X and y
 #Out: Model(Pipleine)
@@ -86,13 +87,13 @@ def get_feature_importance(pipe):
     results['importance'] = model.feature_importances_
 
     replacement_dict = {
-        'cat__land_use_code_11100' : 'Continuous Urban Fabric (S.L. > 80%)',
-        'cat__land_use_code_11210': 'Discontinuous Dense Urban Fabric (S.L. : 50% - 80%)',
-        'cat__land_use_code_11220': 'Discontinuous Medium Density Urban Fabric (S.L. : 30% - 50%)',
-        'cat__land_use_code_11230': 'Discontinuous Low Density Urban Fabric (S.L. : 10% - 30%)',
-        'cat__land_use_code_11240': 'Discontinuous Very Low Density Urban Fabric (S.L. < 10%)',
+        'cat__land_use_code_11100' :'Continuous Urban Fabric',
+        'cat__land_use_code_11210': 'Discontinuous Dense Urban Fabric',
+        'cat__land_use_code_11220': 'Discontinuous Medium Density Urban Fabric',
+        'cat__land_use_code_11230': 'Discontinuous Low Density Urban Fabric',
+        'cat__land_use_code_11240': 'Discontinuous Very Low Density Urban Fabric',
         'cat__land_use_code_11300': 'Isolated Structures',
-        'cat__land_use_code_12100': 'Industrial, commercial, public, military and private units',
+        'cat__land_use_code_12100': 'Industrial, commercial, public',
         'cat__land_use_code_12210': 'Fast transit roads and associated land',
         'cat__land_use_code_12220': 'Other roads and associated land',
         'cat__land_use_code_12230': 'Railways and associated land',
@@ -103,14 +104,14 @@ def get_feature_importance(pipe):
         'cat__land_use_code_13400': 'Land without current use',
         'cat__land_use_code_14100': 'Green urban areas',
         'cat__land_use_code_14200': 'Sports and leisure facilities',
-        'cat__land_use_code_21000': 'Arable land (annual crops)',
-        'cat__land_use_code_22000': 'Permanent crops (vineyards, fruit trees, olive groves)',
+        'cat__land_use_code_21000': 'Arable land',
+        'cat__land_use_code_22000': 'Permanent crops',
         'cat__land_use_code_23000': 'Pastures',
         'cat__land_use_code_24000': 'Complex and mixed cultivation patterns',
         'cat__land_use_code_25000': 'Orchards at the fringe of urban classes',
         'cat__land_use_code_31000': 'Forests',
-        'cat__land_use_code_32000': 'Herbaceous vegetation associations (natural grassland, moors...)',
-        'cat__land_use_code_33000': 'Open spaces with little or no vegetations (beaches, dunes, bare rocks, glaciers)',
+        'cat__land_use_code_32000': 'Herbaceous vegetation associations',
+        'cat__land_use_code_33000': 'Open spaces with little or no vegetations',
         'cat__land_use_code_40000': 'Wetland',
         'cat__land_use_code_50000': 'Water bodies',
         'num__veg' : 'Vegetation Intensity',
@@ -133,7 +134,7 @@ def plot_feature_importance(feature_importance):
     fig, ax = plt.subplots(figsize=(12,8))
     ax.barh(df['feature'], df['importance'], color='lightblue')
     ax.set_xticks([])
-    ax.tick_params(axis='y', labelsize=12)
+    ax.tick_params(axis='y', labelsize=20)
     ax.set_xlabel('Feature Importance', fontsize=14)
     ax.set_title('XGBoost Feature Importance', fontsize=16)
 
@@ -142,6 +143,25 @@ def plot_feature_importance(feature_importance):
         ax.text(v + 0.001, i, str(round(v, 4)), color='black', fontsize=12, va='center')
 
     plt.show()
+    return fig
+
+def plot_feature_importance_v2(feature_importance):
+
+    fig = px.bar(feature_importance.sort_values('importance', ascending=True), x='feature', y='importance',
+                 hover_data=['feature', 'importance'], color='importance', color_continuous_scale=['blue', 'grey', 'green', 'green'],
+                 labels={'importance':'Feature Importance'}, height=400)
+
+    # Replace the x-axis labels with custom labels
+    #fig.update_xaxes(ticktext = feature_importance['short'], tickvals = feature_importance['feature'], tickangle=90)
+
+    fig.update_layout(
+        plot_bgcolor='rgba(240,240,240,1)',
+        paper_bgcolor='rgba(240,240,240,1)',
+        font=dict(color='black')
+    )
+
+    #fig.show()
+    return fig
 
 def plot_from_model(pipe):
-    plot_feature_importance(get_feature_importance(pipe))
+    return plot_feature_importance_v2(get_feature_importance(pipe))
