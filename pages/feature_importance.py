@@ -32,7 +32,7 @@ The plot below shows the importance of features for biodiversity""")
 
 from modelv1 import get_model, load_model_from_pickle_file, get_feature_importance, plot_feature_importance, plot_from_model, plot_feature_importance_v2
 
-model = load_model_from_pickle_file('../models/berlin_pipeline_trained.pkl')
+model = load_model_from_pickle_file('models/berlin_pipeline_trained.pkl')
 feature_importance = get_feature_importance(model)
 
 fig = px.bar(feature_importance.sort_values('importance', ascending=True), x='feature', y='importance',
