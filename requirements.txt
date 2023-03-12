@@ -10,7 +10,7 @@ contextily
 shapely
 fastapi
 uvicorn
-scikit-learn
+scikit-learn==1.2.1
 xgboost
 pickle-mixin
 seaborn
