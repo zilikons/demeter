@@ -22,7 +22,8 @@ option = st.selectbox(
         'Berlin',
         'Paris',
         'Athens',
-        'Zürich'
+        'Zürich',
+        'Barcelona'
     )
 )
 
@@ -30,7 +31,8 @@ selection_dict = {
     'Berlin' : 'berlin',
     'Paris' : 'paris',
     'Athens' : 'athens',
-    'Zürich' : 'zurich'
+    'Zürich' : 'zurich',
+    'Barcelona' : 'barcelona'
 }
 
 path = 'models/' + selection_dict[option] + '_pipeline_trained.pkl'
