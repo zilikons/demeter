@@ -44,3 +44,4 @@ FEATURE_COLUMN_NAMES={
     'Population':'pop',
     'Biodiversity':'y'
 }
+ZIP_FILENAME='0082223-230224095556074.csv'

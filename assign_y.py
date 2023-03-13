@@ -31,6 +31,6 @@ def assign_y(grid, y_meter_data):
     assert isinstance(grid, gpd.GeoDataFrame), f'Expected GeoDataFrame, got {type(grid)}'
     assert isinstance(y_meter_data, gpd.GeoDataFrame), f'Expected GeoDataFrame, got {type(y_meter_data)}'
 
-    grid['num_points_inside'] = grid.apply(lambda row: count_points(row['geometry'], y_meter_data), axis=1)
+    grid['y'] = grid.apply(lambda row: count_points(row['geometry'], y_meter_data), axis=1)
 
     return grid

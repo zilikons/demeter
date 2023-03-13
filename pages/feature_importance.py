@@ -5,7 +5,9 @@ import numpy as np
 import pandas as pd
 
 st.set_page_config(
-    layout='wide'
+    layout='wide',
+    page_title='Model Feature Importance',
+    initial_sidebar_state='collapsed'
 )
 
 st.set_option('deprecation.showPyplotGlobalUse', False)

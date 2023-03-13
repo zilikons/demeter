@@ -2,10 +2,12 @@ import streamlit as st
 from demeter.main_interface.y_plot import make_plotly_plot,get_plotly_data
 
 st.set_page_config(
-    layout='wide'
+    layout='wide',
+    page_title='Feature Map Display',
+    initial_sidebar_state='collapsed'
 )
 
-st.title('Map Layer Display')
+st.title('Feature Map Display')
 city_choice = st.selectbox('Select your city!',['Berlin'])
 @st.cache_data
 def get_data():
