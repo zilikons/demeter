@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 st.title('Feature Map Display')
-city_choice = st.selectbox('Select your city!',['Berlin','Paris','Athens'])
+city_choice = st.selectbox('Select your city!',['Berlin','Paris','Athens','Barcelona','Zurich'])
 @st.cache_data
 def get_data(city_choice):
     data = get_plotly_data(city_choice)
