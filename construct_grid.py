@@ -86,10 +86,28 @@ def join_landuse_city(city_gdf, landuse_gdf):
     # Join the landuse feature with the city polygon
     landuse_joined = gpd.sjoin(landuse_gdf, city_gdf.to_crs(epsg=3035), predicate='within')
 
-    # Drop unnecessary columns
-    landuse_joined.drop(columns=['fua_name','fua_code','prod_date','perimeter','comment','index_right','Pop2018'], inplace=True)
+    if 'fua_name' in landuse_joined.columns:
+        landuse_joined.drop(columns=['fua_name'], inplace=True)
 
-    return landuse_joined
+    if 'fua_code' in landuse_joined.columns:
+        landuse_joined.drop(columns=['fua_code'], inplace=True)
+
+    if 'prod_date' in landuse_joined.columns:
+        landuse_joined.drop(columns=['prod_date'], inplace=True)
+
+    if 'perimeter' in landuse_joined.columns:
+        landuse_joined.drop(columns=['perimeter'], inplace=True)
+
+    if 'comment' in landuse_joined.columns:
+        landuse_joined.drop(columns=['comment'], inplace=True)
+
+    if 'index_right' in landuse_joined.columns:
+        landuse_joined.drop(columns=['index_right'], inplace=True)
+
+    if 'Pop2018' in landuse_joined.columns:
+        landuse_joined.drop(columns=['Pop2018'], inplace=True)
+
+        return landuse_joined
 
 #Third step, join the centroids_gdf and the landuse_joined gdf from step 1 and 2
 def join_landuse_centroid(centroid_gdf, landuse_gdf):
@@ -111,6 +129,23 @@ def points_to_squares(gdf, cell_size):
                           (x + half_side, y - half_side)])
         polygons.append(square)
     return gpd.GeoDataFrame(gdf.drop('geometry', axis=1), geometry=polygons, crs=gdf.crs)
+
+
+#Fifth, join the squares (joined with land use) with the other features gdf
+def sjoin_nearest(data, squares):
+    data = data.to_crs(epsg=3035)
+    squares = squares.to_crs(epsg=3035)
+    joined_data = gpd.sjoin_nearest(data, squares, how='left')
+    joined_data = joined_data.drop_duplicates(subset='geometry').reset_index(drop=True)
+    joined_data = joined_data.drop(columns='index_right')
+
+    columns_to_drop = ['index_right', 'country_left', 'class_2018', 'identifier', 'city_name', 'country_right']
+    for column in columns_to_drop:
+        if column in joined_data.columns:
+            joined_data.drop(columns=[column], inplace=True)
+
+    return joined_data
+
 
 
 if __name__ == '__main__':
