@@ -2,6 +2,7 @@ import streamlit as st
 import geopandas as gpd
 from data_queries import *
 from params import *
+from demeter.main_interface.altair_dashboard_plot import altair_plot
 st.set_page_config(layout='wide',
                    page_title='Urban Assessment Dashboard',
                    initial_sidebar_state='collapsed')
@@ -64,3 +65,6 @@ with col1:
 with col2:
     fig3 = plot_correlation(data,FEATURE_COLUMN_NAMES[feature2])
     st.pyplot(fig3)
+if feature1 != feature2:
+    plot = altair_plot(data,feature1,feature2)
+    st.altair_chart(plot,use_container_width=True)
