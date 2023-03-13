@@ -103,7 +103,7 @@ def join_landuse_centroid(centroid_gdf, landuse_gdf):
 def points_to_squares(gdf, cell_size):
     polygons = []
     for point in gdf.geometry:
-        x, y = point.x, point.ys
+        x, y = point.x, point.y
         half_side = cell_size / 2
         square = Polygon([(x - half_side, y - half_side),
                           (x - half_side, y + half_side),
