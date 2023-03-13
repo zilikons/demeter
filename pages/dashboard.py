@@ -2,7 +2,9 @@ import streamlit as st
 import geopandas as gpd
 from data_queries import *
 from params import *
-st.set_page_config(layout='wide')
+st.set_page_config(layout='wide',
+                   page_title='Urban Assessment Dashboard',
+                   initial_sidebar_state='collapsed')
 st.title('Urban Assessment Dashboard')
 
 

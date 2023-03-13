@@ -36,17 +36,30 @@ def make_plotly_plot(location_datas,feature):
     locations='Name', featureidkey="properties.NUTS_ID",
     mapbox_style="carto-positron", zoom=8, center={"lat": location_lat, "lon": location_lon},
     opacity=0.8, labels={'Name': 'Location'})
-    trace = go.Choroplethmapbox(
-        geojson=gridded_y_json,
-        locations=gridded_y.index,
-        z=np.round(gridded_y[FEATURE_COLUMN_NAMES[feature]],2),
-        colorscale=colorbar_dict[feature],
-        marker_opacity=0.7,
-        marker_line_width=0,
-        name=feature,
-        hovertemplate = feature+' Score: %{z}',
-        hoverlabel= {'namelength':0}
+    if feature == 'Population':
+        trace = go.Choroplethmapbox(
+            geojson=gridded_y_json,
+            locations=gridded_y.index,
+            z=np.round(gridded_y[FEATURE_COLUMN_NAMES[feature]],0),
+            colorscale=colorbar_dict[feature],
+            marker_opacity=0.7,
+            marker_line_width=0,
+            name=feature,
+            hovertemplate = feature+' Score: %{z}',
+            hoverlabel= {'namelength':0}
     )
+    else:
+        trace = go.Choroplethmapbox(
+            geojson=gridded_y_json,
+            locations=gridded_y.index,
+            z=np.round(gridded_y[FEATURE_COLUMN_NAMES[feature]],2),
+            colorscale=colorbar_dict[feature],
+            marker_opacity=0.7,
+            marker_line_width=0,
+            name=feature,
+            hovertemplate = feature+' Score: %{z}',
+            hoverlabel= {'namelength':0}
+        )
 
     fig.add_trace(trace)
     fig.update_layout(
