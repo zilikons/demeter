@@ -8,7 +8,7 @@ import plotly.graph_objs as go
 
 def get_plotly_data(city_name):
     euro_url = "https://github.com/eurostat/Nuts2json/raw/master/2021/4326/20M/nutsrg_3.json"
-    grid_url = "https://raw.githubusercontent.com/zilikons/demeter/master/data/berlin_1k.json"
+    grid_url = f"https://raw.githubusercontent.com/zilikons/demeter/master/data/{city_name.lower()}_1k.json"
     european_countries = gpd.read_file(euro_url)
     gridded_y = gpd.read_file(grid_url).to_crs(epsg=4326)
     gridded_y_json = gridded_y.geometry.__geo_interface__
@@ -34,7 +34,7 @@ def make_plotly_plot(location_datas,feature):
     gridded_y['y'] = np.log1p(gridded_y['y'])
     fig = px.choropleth_mapbox(location_data, geojson=location_country.geometry.__geo_interface__, color="Name",
     locations='Name', featureidkey="properties.NUTS_ID",
-    mapbox_style="carto-positron", zoom=8, center={"lat": location_lat, "lon": location_lon},
+    mapbox_style="carto-positron", zoom=9, center={"lat": location_lat, "lon": location_lon},
     opacity=0.8, labels={'Name': 'Location'})
     if feature == 'Population':
         trace = go.Choroplethmapbox(

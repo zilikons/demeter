@@ -8,13 +8,13 @@ st.set_page_config(
 )
 
 st.title('Feature Map Display')
-city_choice = st.selectbox('Select your city!',['Berlin'])
+city_choice = st.selectbox('Select your city!',['Berlin','Paris'])
 @st.cache_data
-def get_data():
+def get_data(city_choice):
     data = get_plotly_data(city_choice)
     return data
 
-data = get_data()
+data = get_data(city_choice)
 
 feature_choice = st.selectbox('Select your layer!',['Vegetation Intensity','Road Density',
                                 'Water', 'Residential Density', 'Non-Residential Density',
