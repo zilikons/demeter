@@ -14,29 +14,30 @@ st.set_page_config(
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 st.markdown("""# Feature Importance for Biodiversity
-## How to Make a Difference
-In order to efficiently process the data volumes of up to 500,000 data points per city with 32 individual features, we opted for an XGBoost model.
+## How to Make a Difference""")
+
+option = st.selectbox(
+    'Choose a city', (
+        'Berlin',
+        'Paris'
+    )
+)
+
+selection_dict = {
+    'Berlin' : 'berlin',
+    'Paris' : 'paris'
+}
+
+path = 'models/' + selection_dict[option] + '_pipeline_trained.pkl'
+
+st.markdown("""In order to efficiently process the data volumes of up to 500,000 data points per city with 32 individual features, we opted for an XGBoost model.
 In XGBoost (eXtreme Gradient Boosting), feature importance (plottet below) is a metric that measures the relevance of each feature in predicting the target variable. It indicates how useful or valuable each feature is in making predictions. The importance is calculated by the model during training and can be accessed after the model has been fitted. We display the ten most important features below.""")
 
-#df = pd.DataFrame({
-#    'first column': list(range(1, 11)),
-#    'second column': np.arange(10, 101, 10)
-#})
-
-# this slider allows the user to select a number of lines
-# to display in the dataframe
-# the selected value is returned by st.slider
-# line_count = st.slider('Select a line count', 1, 10, 3)
-
-# # and used to select the displayed lines
-# head_df = df.head(line_count)
-
-# head_df
 
 
 from modelv1 import get_model, load_model_from_pickle_file, get_feature_importance, plot_feature_importance, plot_from_model, plot_feature_importance_v2
 
-model = load_model_from_pickle_file('models/berlin_pipeline_trained.pkl')
+model = load_model_from_pickle_file(path)
 feature_importance = get_feature_importance(model)
 
 df_top10 = feature_importance.sort_values('importance', ascending=False).iloc[:10]
