@@ -40,7 +40,7 @@ def make_grid (polygon, cell_size):
 
 #outputs a tuple with squared grid polygons, and respective centroids
 def make_grid_centroid(polygon, cell_size):
-    polygon_meter = polygon.set_crs(epsg=4326)  # Set the current CRS to WGS84
+    polygon_meter = polygon.set_crs(epsg=4326, allow_override=True)  # Set the current CRS to WGS84
     polygon_meter = polygon.to_crs(epsg=3035)  # Convert to the desired CRS (UTM zone 33N)
     min_x, min_y, max_x, max_y = polygon_meter.bounds.values[0] #Retrieve extremes
 
@@ -69,7 +69,7 @@ def create_centroids_gdf(polygon, cell_size):
 
     # Get the list of centroids from the output of make_grid_centroid()
     centroids = grid_cut_centroids[1]
-
+    print(centroids)
     # Convert the list of centroids to a list of shapely Point objects
     points = [Point(x, y) for x, y in centroids]
 
@@ -87,7 +87,7 @@ def join_landuse_city(city_gdf, landuse_gdf):
     landuse_joined = gpd.sjoin(landuse_gdf, city_gdf.to_crs(epsg=3035), predicate='within')
 
     # Drop unnecessary columns
-    landuse_joined.drop(columns=['fua_name','country','fua_code','prod_date','perimeter','comment','index_right','Pop2018','NAME_3'], inplace=True)
+    landuse_joined.drop(columns=['fua_name','fua_code','prod_date','perimeter','comment','index_right','Pop2018'], inplace=True)
 
     return landuse_joined
 
@@ -103,7 +103,7 @@ def join_landuse_centroid(centroid_gdf, landuse_gdf):
 def points_to_squares(gdf, cell_size):
     polygons = []
     for point in gdf.geometry:
-        x, y = point.x, point.ys
+        x, y = point.x, point.y
         half_side = cell_size / 2
         square = Polygon([(x - half_side, y - half_side),
                           (x - half_side, y + half_side),
