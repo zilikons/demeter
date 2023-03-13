@@ -4,6 +4,7 @@ import plotly.express as px
 import numpy as np
 import pandas as pd
 import pickle
+from sklearn.metrics import r2_score
 
 st.set_page_config(
     layout='wide',
@@ -19,13 +20,17 @@ st.markdown("""# Feature Importance for Biodiversity
 option = st.selectbox(
     'Choose a city', (
         'Berlin',
-        'Paris'
+        'Paris',
+        'Athens',
+        'Zürich'
     )
 )
 
 selection_dict = {
     'Berlin' : 'berlin',
-    'Paris' : 'paris'
+    'Paris' : 'paris',
+    'Athens' : 'athens',
+    'Zürich' : 'zurich'
 }
 
 path = 'models/' + selection_dict[option] + '_pipeline_trained.pkl'
@@ -39,6 +44,9 @@ from modelv1 import get_model, load_model_from_pickle_file, get_feature_importan
 
 model = load_model_from_pickle_file(path)
 feature_importance = get_feature_importance(model)
+
+
+
 
 df_top10 = feature_importance.sort_values('importance', ascending=False).iloc[:10]
 
