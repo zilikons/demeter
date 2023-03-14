@@ -14,7 +14,8 @@ option = st.selectbox(
         'Paris',
         'Athens',
         'Zürich',
-        'Barcelona'
+        'Barcelona',
+        'London'
     )
 )
 
@@ -27,7 +28,8 @@ selection_dict = {
     'Paris' : 'paris',
     'Athens' : 'athens',
     'Zürich' : 'zurich',
-    'Barcelona' : 'barcelona'
+    'Barcelona' : 'barcelona',
+    'London' : 'london'
 }
 
 #path = 'https://raw.githubusercontent.com/zilikons/demeter/master/data/' + selection_dict[option] + '_with_features.json'
