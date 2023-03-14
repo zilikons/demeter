@@ -39,32 +39,41 @@ def get_data(option):
     return data
 
 data = get_data(option)
-
+feature_list = list(FEATURE_COLUMN_NAMES.keys())
+feature_list.remove('Land Use')
 with col1:
-    feature1= st.selectbox('pick the first feature',FEATURE_COLUMN_NAMES.keys())
+    feature1= st.selectbox('Select the first feature',feature_list)
 
 with col2:
-    feature2= st.selectbox('pick the second feature',FEATURE_COLUMN_NAMES.keys())
+    feature2= st.selectbox('Select the second feature',feature_list)
 
 #with col3[0]:
     #fig = feature_histogram_side_by_side(data,feature1,feature2)
     #st.pyplot(fig)
+if feature1 == feature2:
+    with col3[0]:
+        fig_ft1 = feature_histogram(data,feature1)
+        st.pyplot(fig_ft1)
+        st.set_option('deprecation.showPyplotGlobalUse', False)
+        fig2 = plot_correlation(data,FEATURE_COLUMN_NAMES[feature1])
+        st.pyplot(fig2)
+else:
+    with col1:
+        fig_ft1 = feature_histogram(data,feature1)
+        st.pyplot(fig_ft1)
+        st.set_option('deprecation.showPyplotGlobalUse', False)
+    with col2:
+        fig_ft2 = feature_histogram(data,feature2)
+        st.pyplot(fig_ft1)
+        st.set_option('deprecation.showPyplotGlobalUse', False)
+    with col1:
+        fig2 = plot_correlation(data,FEATURE_COLUMN_NAMES[feature1])
+        st.pyplot(fig2)
 
-with col1:
-    fig_ft1 = feature_histogram(data,feature1)
-    st.pyplot(fig_ft1)
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-with col2:
-    fig_ft2 = feature_histogram(data,feature2)
-    st.pyplot(fig_ft1)
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-with col1:
-    fig2 = plot_correlation(data,FEATURE_COLUMN_NAMES[feature1])
-    st.pyplot(fig2)
-
-with col2:
-    fig3 = plot_correlation(data,FEATURE_COLUMN_NAMES[feature2])
-    st.pyplot(fig3)
-if feature1 != feature2:
-    plot = altair_plot(data,feature1,feature2)
-    st.altair_chart(plot,use_container_width=True)
+    with col2:
+        fig3 = plot_correlation(data,FEATURE_COLUMN_NAMES[feature2])
+        st.pyplot(fig3)
+with col3[0]:
+    if feature1 != feature2:
+        plot = altair_plot(data,feature1,feature2)
+        st.altair_chart(plot,use_container_width=True)
