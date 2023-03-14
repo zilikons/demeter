@@ -6,6 +6,7 @@ import seaborn as sns
 from params import FEATURE_COLUMN_NAMES, REVERSE_FEATURE_COLUMN_NAMES
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
+import plotly.express as px
 
 #Function 1: Dissolving (=groupby) the data
 def dissolve_and_reset_index(data, by):
@@ -22,6 +23,7 @@ def feature_histogram(data, feature_column_name):
     plt.xlabel(feature_column_name)
     sns.histplot(np.log1p(data[FEATURE_COLUMN_NAMES[feature_column_name]]), kde=True);
 
+
 #Histplot with two features side-by-side
 def feature_histogram_side_by_side(data, feature_column_name1,feature_column_name2):
     feature_name1 = FEATURE_COLUMN_NAMES[feature_column_name1]
@@ -37,6 +39,8 @@ def feature_histogram_side_by_side(data, feature_column_name1,feature_column_nam
     sns.histplot(np.log1p(data[FEATURE_COLUMN_NAMES[feature_column_name2]]), kde=True);
     fig = plt.gcf()
     return fig
+
+
 #plotting feature map
 def plot_feature(data, feature):
     fig, ax = plt.subplots(1, 1)
