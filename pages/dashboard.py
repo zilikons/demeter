@@ -8,6 +8,9 @@ st.set_page_config(layout='wide',
                    initial_sidebar_state='collapsed')
 st.title('Urban Assessment Dashboard')
 
+st.markdown("""On this page, two metrics related to biodiversity can be compared with each other. We first show the histogram and then the correlation to other selected metrics. The graph at the bottom shows the correlation between the two selected metrics and land use.
+You can also select different cities to compare the distribution of the selected metrics between cities.""")
+
 option = st.selectbox(
     'Choose a city', (
         'Berlin',
@@ -17,11 +20,6 @@ option = st.selectbox(
         'Barcelona'
     )
 )
-
-col1, col2 = st.columns((2, 2))
-col3 = st.columns((1,))
-
-
 selection_dict = {
     'Berlin' : 'berlin',
     'Paris' : 'paris',
@@ -29,6 +27,10 @@ selection_dict = {
     'Zürich' : 'zurich',
     'Barcelona' : 'barcelona'
 }
+
+col1, col2 = st.columns((2, 2))
+col3 = st.columns((1,))
+
 
 #path = 'https://raw.githubusercontent.com/zilikons/demeter/master/data/' + selection_dict[option] + '_with_features.json'
 
@@ -45,7 +47,7 @@ with col1:
     feature1= st.selectbox('Select the first feature',feature_list)
 
 with col2:
-    feature2= st.selectbox('Select the second feature',feature_list)
+    feature2= st.selectbox('Select the second feature',feature_list[1:])
 
 #with col3[0]:
     #fig = feature_histogram_side_by_side(data,feature1,feature2)
@@ -75,5 +77,10 @@ else:
         st.pyplot(fig3)
 with col3[0]:
     if feature1 != feature2:
-        plot = altair_plot(data,feature1,feature2)
-        st.altair_chart(plot,use_container_width=True)
+        with st.expander("See Land Use"):
+            st.write("""
+                ## Land Use
+                This graph shows the land use depending on the selected features. The graph is interactive. You can select a sub-area with the mouse to see how land use changes depending on the selected metrics.
+            """)
+            plot = altair_plot(data,feature1,feature2)
+            st.altair_chart(plot,use_container_width=True)
