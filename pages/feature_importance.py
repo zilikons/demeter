@@ -38,7 +38,12 @@ selection_dict = {
 path = 'models/' + selection_dict[option] + '_pipeline_trained.pkl'
 
 st.markdown("""In order to efficiently process the data volumes of up to 500,000 data points per city with 32 individual features, we opted for an XGBoost model.
+<<<<<<< HEAD
 In XGBoost (eXtreme Gradient Boosting), feature importance (plottet below) is a metric that measures the relevance of each feature in predicting the target variable. It indicates how useful or valuable each feature is in making predictions. The importance is calculated by the model during training and can be accessed after the model has been fitted. Choose the number of displayed features below.""")
+=======
+In XGBoost (eXtreme Gradient Boosting), feature importance (plotted below) is a metric that measures the relevance of each feature in predicting the target variable. It indicates how useful or valuable each feature is in making predictions. The importance is calculated by the model during training and can be accessed after the model has been fitted. We display the ten most important features below.""")
+
+>>>>>>> 8ceaf3f5b3481d2844ba63a3426079828b5e2711
 
 num_features = st.slider(label = "Number of features", min_value=5, max_value=15, value=10, step=None, format=None, key=None, help=None, on_change=None, args=None, kwargs=None)
 
@@ -68,12 +73,13 @@ fig.update_layout(
 #fig.show()
 st.plotly_chart(fig,use_container_width=True, theme = 'streamlit')
 #st.write(fig)
-
+feature_importance_ranking = feature_importance.sort_values('importance', ascending=False).reset_index(drop=True)
+feature_importance_ranking.index = feature_importance.index + 1
 with st.expander("See all features and importance"):
     st.write("""
         The features are sorted by importance in descending order.
     """)
-    st.write(feature_importance.sort_values('importance', ascending=False))
+    st.dataframe(feature_importance_ranking)
     #st.image("https://static.streamlit.io/examples/dice.jpg")
 
 with st.expander("See model explanation"):
