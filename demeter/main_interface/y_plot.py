@@ -35,7 +35,7 @@ def make_plotly_plot(location_datas,feature):
     fig = px.choropleth_mapbox(location_data, geojson=location_country.geometry.__geo_interface__, color="Name",
     locations='Name', featureidkey="properties.NUTS_ID",
     mapbox_style="carto-positron", zoom=9, center={"lat": location_lat, "lon": location_lon},
-    opacity=0.8, labels={'Name': 'Location'})
+    opacity=0.8, labels={'Name': 'Location'}, height=600)
     if feature == 'Population':
         trace = go.Choroplethmapbox(
             geojson=gridded_y_json,

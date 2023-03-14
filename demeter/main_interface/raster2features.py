@@ -4,6 +4,7 @@ from construct_grid import make_grid
 from assign_y import assign_y
 import geopandas as gpd
 import pandas as pd
+import numpy as np
 
 def raster2features(city_shapefile:gpd.GeoDataFrame,
                     city_y:gpd.GeoDataFrame,
@@ -22,4 +23,5 @@ def raster2features(city_shapefile:gpd.GeoDataFrame,
     city_more_feat = gpd.sjoin(city_pop.to_crs(epsg=3035),city_feat,predicate='within').groupby('index_right').sum()
     cmf = city_more_feat.drop(columns=['X','Y']).rename(columns={'Z':'pop'})
     cff = pd.merge(city_grid,cmf,left_index=True,right_index=True)
+    cff['log_y'] = np.log1p(cff['y'])
     return cff
