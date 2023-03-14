@@ -17,7 +17,8 @@ option = st.selectbox(
         'Paris',
         'Athens',
         'Zürich',
-        'Barcelona'
+        'Barcelona',
+        'London'
     )
 )
 selection_dict = {
@@ -25,7 +26,8 @@ selection_dict = {
     'Paris' : 'paris',
     'Athens' : 'athens',
     'Zürich' : 'zurich',
-    'Barcelona' : 'barcelona'
+    'Barcelona' : 'barcelona',
+    'London' : 'london'
 }
 
 col1, col2 = st.columns((2, 2))
