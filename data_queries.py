@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from params import URBAN_ATLAS_LAND_USE
 import seaborn as sns
-from params import FEATURE_COLUMN_NAMES
+from params import FEATURE_COLUMN_NAMES, REVERSE_FEATURE_COLUMN_NAMES
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 
@@ -15,25 +15,24 @@ def dissolve_and_reset_index(data, by):
 
 
 #Histplot single feature
-def feature_histogram(data, feature_column_name1,feature_column_name2):
-    feature_name1 = FEATURE_COLUMN_NAMES[feature_column_name1]
-    feature_name2 = FEATURE_COLUMN_NAMES[feature_column_name2]
+def feature_histogram(data, feature_column_name):
+    feature_name = FEATURE_COLUMN_NAMES[feature_column_name]
     plt.figure(figsize=(14, 4))
-
-    plt.title(feature_column_name1)
-    sns.histplot(np.log1p(data[FEATURE_COLUMN_NAMES[feature_column_name1]]), kde=True);
+    plt.title(feature_column_name)
+    plt.xlabel(feature_column_name)
+    sns.histplot(np.log1p(data[FEATURE_COLUMN_NAMES[feature_column_name]]), kde=True);
 
 #Histplot with two features side-by-side
 def feature_histogram_side_by_side(data, feature_column_name1,feature_column_name2):
     feature_name1 = FEATURE_COLUMN_NAMES[feature_column_name1]
     feature_name2 = FEATURE_COLUMN_NAMES[feature_column_name2]
-    plt.figure(figsize=(14, 4))
+    plt.figure(figsize=(20, 8))
 
-    plt.subplot(1, 2, 1)
+    plt.subplot(2, 1, 1)
     plt.title(feature_column_name1)
     sns.histplot(np.log1p(data[FEATURE_COLUMN_NAMES[feature_column_name1]]), kde=True);
 
-    plt.subplot(1, 2, 2)
+    plt.subplot(2, 1, 2)
     plt.title(feature_column_name2)
     sns.histplot(np.log1p(data[FEATURE_COLUMN_NAMES[feature_column_name2]]), kde=True);
     fig = plt.gcf()
@@ -75,10 +74,15 @@ def plot_scatter_by_name(data, land_use_name):
 
 
 #correlation of specific feature with target
+#correlation of specific feature with target
 def plot_correlation(data, feature_column_name, cmap='coolwarm'):
     corr_group = data.corr()[[feature_column_name]]
+    corr_group = corr_group.drop('y')
     sns.set(style='white')
-    fig, ax = plt.subplots(figsize=(10,10))
+    fig, ax = plt.subplots()
     sns.heatmap(corr_group, cmap=cmap, annot=True, fmt='.2f', linewidths=.5, ax=ax)
-    ax.set_title(f'Correlation of {feature_column_name}')
+    ax.set_title(f'Correlation of {REVERSE_FEATURE_COLUMN_NAMES[feature_column_name]}')
+    ax.set_xlabel('')
+    ax.set_xticklabels('')
+    ax.set_yticklabels([REVERSE_FEATURE_COLUMN_NAMES[x] for x in corr_group.index])
     return fig
