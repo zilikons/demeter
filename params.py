@@ -41,6 +41,21 @@ FEATURE_COLUMN_NAMES={
     'Residential Density':'resi',
     'Non-Residential Density':'non_resi',
     'Land Use':'land_use_code',
+    'Land Use':'code_2018',
     'Population':'pop',
-    'Biodiversity':'y'
+    'Biodiversity':'log_y'
+}
+REVERSE_FEATURE_COLUMN_NAMES={
+    'veg':'Vegetation Intensity',
+    'road':'Road Density',
+    'water':'Water',
+    'resi':'Residential Density',
+    'non_resi':'Non-Residential Density',
+    'land_use_code':'Land Use',
+    'code_2018':'Land Use',
+    'pop':'Population',
+    'log_y':'Biodiversity',
+    'area':'Land Use Area Size',
+    'land_use_area':'Land Use Area Size',
+    'y':'Biodiversity'
 }
