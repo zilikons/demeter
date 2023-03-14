@@ -66,7 +66,7 @@ else:
         st.set_option('deprecation.showPyplotGlobalUse', False)
     with col2:
         fig_ft2 = feature_histogram(data,feature2)
-        st.pyplot(fig_ft1)
+        st.pyplot(fig_ft2)
         st.set_option('deprecation.showPyplotGlobalUse', False)
     with col1:
         fig2 = plot_correlation(data,FEATURE_COLUMN_NAMES[feature1])
