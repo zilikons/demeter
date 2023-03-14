@@ -5,6 +5,7 @@ from params import *
 from demeter.main_interface.altair_dashboard_plot import altair_plot
 st.set_page_config(layout='wide',
                    page_title='Urban Assessment Dashboard',
+                   page_icon=":sunflower:",
                    initial_sidebar_state='collapsed')
 st.title('Urban Assessment Dashboard')
 

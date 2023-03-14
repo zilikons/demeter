@@ -4,6 +4,7 @@ from demeter.main_interface.y_plot import make_plotly_plot,get_plotly_data
 st.set_page_config(
     layout='wide',
     page_title='Feature Map Display',
+    page_icon=":sunflower:",
     initial_sidebar_state='collapsed'
 )
 

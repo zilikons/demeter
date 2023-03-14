@@ -1,11 +1,7 @@
 import streamlit as st
 
 st.set_page_config(page_title='DEMETER: Urban Assessment Platform',
-                   menu_items={
-                       'About': '#Hi',
-
-                   },
-
+                   page_icon=":sunflower:",
                    initial_sidebar_state='expanded')
 streamlit_style = """
 			<style>

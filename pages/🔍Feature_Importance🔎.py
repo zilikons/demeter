@@ -9,6 +9,7 @@ from sklearn.metrics import r2_score
 st.set_page_config(
     layout='wide',
     page_title='Model Feature Importance',
+    page_icon=":sunflower:",
     initial_sidebar_state='collapsed'
 )
 
