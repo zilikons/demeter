@@ -38,9 +38,9 @@ selection_dict = {
 path = 'models/' + selection_dict[option] + '_pipeline_trained.pkl'
 
 st.markdown("""In order to efficiently process the data volumes of up to 500,000 data points per city with 32 individual features, we opted for an XGBoost model.
-In XGBoost (eXtreme Gradient Boosting), feature importance (plottet below) is a metric that measures the relevance of each feature in predicting the target variable. It indicates how useful or valuable each feature is in making predictions. The importance is calculated by the model during training and can be accessed after the model has been fitted. We display the ten most important features below.""")
+In XGBoost (eXtreme Gradient Boosting), feature importance (plottet below) is a metric that measures the relevance of each feature in predicting the target variable. It indicates how useful or valuable each feature is in making predictions. The importance is calculated by the model during training and can be accessed after the model has been fitted. Choose the number of displayed features below.""")
 
-
+num_features = st.slider(label = "Number of features", min_value=5, max_value=15, value=10, step=None, format=None, key=None, help=None, on_change=None, args=None, kwargs=None)
 
 from modelv1 import get_model, load_model_from_pickle_file, get_feature_importance, plot_feature_importance, plot_from_model, plot_feature_importance_v2
 
@@ -50,7 +50,7 @@ feature_importance = get_feature_importance(model)
 
 
 
-df_top10 = feature_importance.sort_values('importance', ascending=False).iloc[:10]
+df_top10 = feature_importance.sort_values('importance', ascending=False).iloc[:num_features]
 
 # round to 4 digits not working:
 df_top10['importance'] = df_top10['importance'].round(4)
