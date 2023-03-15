@@ -50,7 +50,7 @@ with col1:
     feature1= st.selectbox('Select the first feature',feature_list)
 
 with col2:
-    feature2= st.selectbox('Select the second feature',feature_list)
+    feature2= st.selectbox('Select the second feature',feature_list,index=5)
 
 #with col3[0]:
     #fig = feature_histogram_side_by_side(data,feature1,feature2)
@@ -80,5 +80,6 @@ else:
         st.pyplot(fig3)
 with col3[0]:
     if feature1 != feature2:
-        plot = altair_plot(data,feature1,feature2)
-        st.altair_chart(plot,use_container_width=True)
+        with st.expander('Land Use Distribution Scatterplot'):
+            plot = altair_plot(data,feature1,feature2)
+            st.altair_chart(plot,use_container_width=True)
