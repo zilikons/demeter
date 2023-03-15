@@ -3,6 +3,7 @@ import geopandas as gpd
 from data_queries import *
 from params import *
 from demeter.main_interface.altair_dashboard_plot import altair_plot
+import hydralit_components as hc
 st.set_page_config(layout='wide',
                    page_title='Urban Assessment Dashboard',
                    page_icon=":sunflower:",
@@ -20,11 +21,6 @@ option = st.selectbox(
         'Ljubljana'
     )
 )
-
-col1, col2 = st.columns((2, 2))
-col3 = st.columns((1,))
-
-
 selection_dict = {
     'Berlin' : 'berlin',
     'Paris' : 'paris',
@@ -34,16 +30,22 @@ selection_dict = {
     'London' : 'london',
     'Ljubljana':'ljubljana'
 }
-
-#path = 'https://raw.githubusercontent.com/zilikons/demeter/master/data/' + selection_dict[option] + '_with_features.json'
-
 @st.cache_data
 def get_data(option):
     url = 'https://raw.githubusercontent.com/zilikons/demeter/master/data/' + selection_dict[option] + '_with_features.json'
     data = gpd.read_file(url)
     return data
+with hc.HyLoader('Loading data...',hc.Loaders.pacman):
+    data = get_data(option)
+col1, col2 = st.columns((2, 2))
+col3 = st.columns((1,))
 
-data = get_data(option)
+
+
+
+#path = 'https://raw.githubusercontent.com/zilikons/demeter/master/data/' + selection_dict[option] + '_with_features.json'
+
+
 feature_list = list(FEATURE_COLUMN_NAMES.keys())
 feature_list.remove('Land Use')
 with col1:
