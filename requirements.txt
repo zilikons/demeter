@@ -14,3 +14,4 @@ scikit-learn==1.2.1
 xgboost
 pickle-mixin
 seaborn
+hydralit_components

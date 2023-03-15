@@ -1,5 +1,6 @@
 import streamlit as st
 from demeter.main_interface.y_plot import make_plotly_plot,get_plotly_data
+import hydralit_components as hc
 
 st.set_page_config(
     layout='wide',
@@ -14,8 +15,8 @@ city_choice = st.selectbox('Select your city!',['Berlin','Paris','Athens','Barce
 def get_data(city_choice):
     data = get_plotly_data(city_choice)
     return data
-
-data = get_data(city_choice)
+with hc.HyLoader('Loading data...',hc.Loaders.pacman):
+    data = get_data(city_choice)
 
 feature_choice = st.selectbox('Select your layer!',['Vegetation Intensity','Road Density',
                                 'Water', 'Residential Density', 'Non-Residential Density',
